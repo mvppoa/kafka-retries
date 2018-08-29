@@ -1,0 +1,40 @@
+[
+  {
+    "uuidTransacaoDepositoVarejo": "1234",
+    "nsuAut": "78440",
+    "nsuSiscap": "71213145",
+    "nrContaCorrenteDestino": "2400018500",
+    "nrAgenciaDestino": "0201",
+    "cdBancoDestino": "041",
+    "dtContabil": "2017-12-26T00:00:00Z",
+    "valorDeposito": 50000,
+    "cdEstabelecimento": 3600287,
+    "cdTerminal": "05100235",
+    "dataCaptura": "2017-12-26T00:00:00Z",
+    "nomeFantasia": "VIEZZER",
+    "idCliente": "0003600287009",
+    "siglaPais": "BR",
+    "cdStatus": "14",
+    "cdOperadora": 178,
+    "cdProc": "304001"
+  },
+  {
+    "uuidTransacaoDepositoVarejo": "1235",
+    "nsuAut": "81863",
+    "nsuSiscap": "71216564",
+    "nrContaCorrenteDestino": "2400018500",
+    "nrAgenciaDestino": "0201",
+    "cdBancoDestino": "041",
+    "dtContabil": "2017-12-26T00:00:00Z",
+    "valorDeposito": 125000,
+    "cdEstabelecimento": 3600287,
+    "cdTerminal": "05100235",
+    "dataCaptura": "2017-12-26T00:00:00Z",
+    "nomeFantasia": "VIEZZER",
+    "idCliente": "0003600287009",
+    "siglaPais": "BR",
+    "cdStatus": "14",
+    "cdOperadora": 178,
+    "cdProc": "304001"
+  }
+]
