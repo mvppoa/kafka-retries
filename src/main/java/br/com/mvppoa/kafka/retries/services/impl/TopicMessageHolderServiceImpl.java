@@ -32,18 +32,21 @@ public class TopicMessageHolderServiceImpl implements TopicMessageHolderService 
     private final ErrorStrategyHandler errorStrategyHandler;
     private final Sender sender;
     private final Long defaultTimeToDelayMessage;
+    private final String headerIgnore;
 
     public TopicMessageHolderServiceImpl(
             TopicMessageHolderRepository topicMessageHolderRepository,
             ErrorStrategyHandler errorStrategyHandler,
             HazelcastInstance hazelcastInstance,
             Sender sender,
-            @Value("${application.kafka.default-time-to-delay-message}") Long defaultTimeToDelayMessage) {
+            @Value("${application.kafka.default-time-to-delay-message}") Long defaultTimeToDelayMessage,
+            @Value("${application.kafka.header-ignore}") String headerIgnore) {
         this.topicMessageHolderRepository = topicMessageHolderRepository;
         this.defaultTimeToDelayMessage = defaultTimeToDelayMessage;
         this.errorStrategyHandler = errorStrategyHandler;
         this.hazelcastInstance = hazelcastInstance;
         this.sender = sender;
+        this.headerIgnore = headerIgnore;
     }
 
     /**
@@ -71,7 +74,11 @@ public class TopicMessageHolderServiceImpl implements TopicMessageHolderService 
         Map<String, String> headerMap = new HashMap<>();
         try {
             for (Header header : recordHeaders) {
-                headerMap.put(header.key(), new String(header.value(), "UTF-8"));
+                //TODO - Improve header handling to consider header types.
+                if(headerIgnore.contains(header.key())){
+                    continue;
+                }
+                headerMap.put(header.key(), new String(header.value(), "UTF-8").replace("\"",""));
                 if (HEADER_KR_DELAY.equals(header.key())) {
                     timeToDelayMessage = Math.multiplyExact(Long.valueOf(headerMap.get(header.key())), DELAY_MULTIPLIER);
                     headerMap.put(header.key(), Long.toString(timeToDelayMessage));
@@ -121,9 +128,7 @@ public class TopicMessageHolderServiceImpl implements TopicMessageHolderService 
 
         Map<UUID, Boolean> mapMessage = hazelcastInstance.getMap("existingUUIDs");
 
-        topicMessageHolders.forEach(topicMessageHolder -> {
-            sendAndDeleteMessage(mapMessage, topicMessageHolder);
-        });
+        topicMessageHolders.forEach(topicMessageHolder -> sendAndDeleteMessage(mapMessage, topicMessageHolder));
 
     }
 
