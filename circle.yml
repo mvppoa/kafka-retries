@@ -1,0 +1,15 @@
+machine:
+    services:
+        - docker
+    java:
+        version: oraclejdk8
+    node:
+        version: 8.11.3
+dependencies:
+    cache_directories:
+        - node
+        - node_modules
+    override:
+        - java -version
+test:
+    override:
